@@ -62,7 +62,7 @@ router.get("/all", (req, res) => {
 // @route   Get api/profile/handle/:handle
 // @desc    Get profile by handle
 // @access  Public
-router.post("/handle/:handle", (req, res) => {
+router.get("/handle/:handle", (req, res) => {
   const errors = {};
   Profile.findOne({ handle: req.params.handle })
     .populate("user", ["name", "avatar"])
@@ -263,7 +263,7 @@ router.delete(
       .then(profile => {
         const removeIndex = profile.education
           .map(item => item.id)
-          .indexOf(req.params.exp_id);
+          .indexOf(req.params.edu_id);
 
         // Splice out of array
         profile.education.splice(removeIndex, 1);

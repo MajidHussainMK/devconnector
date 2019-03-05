@@ -49,6 +49,6 @@ if (process.env.NODE_ENV == "production") {
 //(process.env.PORT) for deploying on Heroku
 const port = process.env.PORT || 5000;
 
-app.listen(port, () => {
+app.listen(process.env.PORT, () => {
   console.log(`Server running on ${port}`);
 });

@@ -38,6 +38,4 @@ const store = createStore(
   composingMiddlewareAndDevTools
 );
 
-console.log(store.getState());
-
 export default store;

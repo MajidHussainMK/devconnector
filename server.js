@@ -4,38 +4,40 @@ const bodyParser = require("body-parser");
 const passport = require("passport");
 const path = require("path");
 
-const users = require("./routes/api/users");
-const profile = require("./routes/api/profile");
-const posts = require("./routes/api/posts");
+const users = require("./routes/apis/users");
+const profile = require("./routes/apis/profile");
+const posts = require("./routes/apis/posts");
 
 const app = express();
 
-// Body parser middleware
+//Body-Parser middleware
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 // DB Config
 const db = require("./config/keys").mongoURI;
 
-// Connect to MongoDB
+// Connect to mongo Db
+
 mongoose
-  .connect(db)
-  .then(() => console.log("MongoDB Connected"))
+  .connect(db, { useNewUrlParser: true })
+  .then(() => {
+    console.log("MongoDB Connected");
+  })
   .catch(err => console.log(err));
 
-// Passport middleware
+// Passport Middleware
 app.use(passport.initialize());
 
 // Passport Config
 require("./config/passport")(passport);
 
-// Use Routes
 app.use("/api/users", users);
 app.use("/api/profile", profile);
 app.use("/api/posts", posts);
 
 // Server static assets if in production
-if (process.env.NODE_ENV === "production") {
+if (process.env.NODE_ENV == "production") {
   // Set static folder
   app.use(express.static("client/build"));
 
@@ -44,6 +46,9 @@ if (process.env.NODE_ENV === "production") {
   });
 }
 
+//(process.env.PORT) for deploying on Heroku
 const port = process.env.PORT || 5000;
 
-app.listen(port, () => console.log(`Server running on port ${port}`));
+app.listen(port, () => {
+  console.log(`Server running on ${port}`);
+});
